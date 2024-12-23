@@ -1,28 +1,27 @@
 import { useState } from "react";
 
 export default function InscriptionForm({ SetInsc, Users }) {
-  
-    
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
   const [error, setError] = useState(false);
-  
-
 
   async function addUser() {
-
     const user = {
-        email:email,
-        pswd:password
+      email: email,
+      pswd: password,
+      fname:fname,
+      lname:lname
     };
 
     try {
       const response = await fetch("http://localhost:3000/api/bookuser", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
 
       if (response.ok) {
@@ -35,21 +34,23 @@ export default function InscriptionForm({ SetInsc, Users }) {
     }
   }
 
-
- 
   function handleSubmit(e) {
+
     e.preventDefault();
+    let emailExist = Users.some((elt) => elt.email === email);
+
+    if (
+      emailExist ||
+      (password !== "" && password2 != "" && password !== password2)
+    ) {
+      setError(true);
+    } 
     
-    let emailExist = Users.some(elt=>elt.email === email);
-
-    if (emailExist || ((password !== "" && password2 != "")  && password !== password2)){
-        setError(true);
+    else {
+      addUser();
+      alert("User Added successfully");
+      SetInsc(false);
     }
-    else{
-        addUser();
-        SetInsc(false);
-    }
-
   }
 
   return (
@@ -59,6 +60,47 @@ export default function InscriptionForm({ SetInsc, Users }) {
           Inscription
         </h2>
         <form className="mt-6" onSubmit={handleSubmit}>
+          {/* --------------------- Fname */}
+          <div className="mb-4">
+            <label
+              htmlFor="text"
+              className="block text-sm font-medium text-gray-400"
+            >
+              First Name
+            </label>
+            <input
+              required
+              type="text"
+              id="fname"
+              name="fname"
+              placeholder="Enter your First Name"
+              value={fname}
+              onChange={(e) => setFname(e.target.value)}
+              className="w-full px-4 py-2 mt-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+            />
+          </div>
+
+          {/* ------------------Lanme */}
+          <div className="mb-4">
+            <label
+              htmlFor="text"
+              className="block text-sm font-medium text-gray-400"
+            >
+              Last Name
+            </label>
+            <input
+              required
+              type="text"
+              id="lname"
+              name="lname"
+              placeholder="Enter your Last Name"
+              value={lname}
+              onChange={(e) => setLname(e.target.value)}
+              className="w-full px-4 py-2 mt-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+            />
+          </div>
+          {/* ------------------------ */}
+
           <div className="mb-4">
             <label
               htmlFor="email"
@@ -67,7 +109,7 @@ export default function InscriptionForm({ SetInsc, Users }) {
               Email
             </label>
             <input
-            required
+              required
               type="email"
               id="email"
               name="email"
@@ -77,6 +119,7 @@ export default function InscriptionForm({ SetInsc, Users }) {
               className="w-full px-4 py-2 mt-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
+
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -85,7 +128,7 @@ export default function InscriptionForm({ SetInsc, Users }) {
               Password
             </label>
             <input
-            required
+              required
               type="password"
               id="password"
               name="password"
@@ -104,7 +147,7 @@ export default function InscriptionForm({ SetInsc, Users }) {
               Tap The Password Again
             </label>
             <input
-            required
+              required
               type="password"
               id="password2"
               name="password2"
@@ -114,7 +157,6 @@ export default function InscriptionForm({ SetInsc, Users }) {
               className="w-full px-4 py-2 mt-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
-
 
           {error && (
             <div className="alert alert-danger text-center">
@@ -131,7 +173,7 @@ export default function InscriptionForm({ SetInsc, Users }) {
         <p className="mt-6 text-sm text-center text-gray-400">
           Already have an account?{" "}
           <button
-          type="button"
+            type="button"
             onClick={() => SetInsc(false)}
             className="text-blue-400 hover:underline bg-transparent border-none p-0 cursor-pointer"
           >
