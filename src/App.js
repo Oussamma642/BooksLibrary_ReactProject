@@ -3,6 +3,8 @@ import Main from "./Components/Main";
 import LoginForm from "./Components/LoginForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 import InscriptionForm from "./Components/InscriptionForm";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Profile from "./Components/Profile";
 
 function App() {
   const BaseURL = "http://localhost:3000/api/bookuser";
@@ -38,13 +40,31 @@ function App() {
     }
   }
 
-  return (
-    inscription? <InscriptionForm SetInsc={setInscription} Users={users} />
-    : isLoggedIn? <Main UserInofs={connectedUser} /> 
-    : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
-  )
 
+  // Cannot read properties of undefined (reading 'pathname')
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={
+            inscription ? <InscriptionForm SetInsc={setInscription} Users={users} /> 
+            : isLoggedIn ? <Main UserInofs={connectedUser} /> 
+            : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
+          } 
+        />
+        <Route path="/Profile" element={<Profile UserInofs={connectedUser}  />} />
+      </Routes>
+    </Router>
+  );
 
 }
 
 export default App;
+
+  // return (
+  //   inscription? <InscriptionForm SetInsc={setInscription} Users={users} />
+  //   : isLoggedIn? <Main UserInofs={connectedUser} /> 
+  //   : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
+  // )
+
