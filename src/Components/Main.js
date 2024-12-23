@@ -42,9 +42,9 @@ function Main({ UserInofs }) {
     }
   }
 
-  // useEffect(() => {
-  //   FetchBooksData();
-  // }, [params, favBook]);
+  useEffect(() => {
+    FetchBooksData();
+  }, [params, favBook]);
 
   const lastPostIndex = currentPage * postsPerPage;
   const firstPostIndex = lastPostIndex - postsPerPage;

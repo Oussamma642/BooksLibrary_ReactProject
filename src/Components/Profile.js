@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile({ UserInofs, setConnectedUser }) {
+export default function Profile({
+  UserInofs,
+  setConnectedUser,
+  setIsLoggedIn,
+}) {
   const [fname, setFname] = useState(UserInofs.fname);
   const [lname, setLname] = useState(UserInofs.lname);
   const [email, setEmail] = useState(UserInofs.email);
@@ -9,6 +13,8 @@ export default function Profile({ UserInofs, setConnectedUser }) {
 
   const Navigate = useNavigate();
 
+// ------------------- Async functions
+// ---------Update
   async function UpdateUser(userID) {
     try {
       const response = await fetch(
@@ -35,9 +41,7 @@ export default function Profile({ UserInofs, setConnectedUser }) {
 
       alert("User updated successfully!");
 
-      Navigate('/');
-
-
+      Navigate("/");
     } catch (error) {
       // Show error alert
       alert("An error occurred while updating the user: " + error.message);
@@ -45,6 +49,28 @@ export default function Profile({ UserInofs, setConnectedUser }) {
     }
   }
 
+// ---------Delete
+  async function deleteUser(userID) {
+    try {
+      const response = await fetch(`http://localhost:3000/api/bookuser/${userID}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete user');
+      }
+      
+    console.log(userID);
+
+      alert('User deleted successfully!');
+    } catch (error) {
+      alert('An error occurred while deleting the user: ' + error.message);
+      console.error('Error:', error);
+    }
+  }
+  
+
+  // Modify User
   function handleSaveChanges() {
     setConnectedUser({
       email: email,
@@ -54,6 +80,22 @@ export default function Profile({ UserInofs, setConnectedUser }) {
     });
 
     UpdateUser(UserInofs.id);
+  }
+
+  // Logout
+  function handleLogOut() {
+    setConnectedUser({});
+    setIsLoggedIn(false);
+    Navigate("/");
+  }
+
+  // Delete Account
+  function handleDelete() {
+    console.log(UserInofs.id);
+    deleteUser(UserInofs.id);
+    setConnectedUser({});
+    setIsLoggedIn(false);
+    Navigate("/");
   }
 
   return (
@@ -153,10 +195,12 @@ export default function Profile({ UserInofs, setConnectedUser }) {
           </button>
 
           {/* Logout Button */}
-          <button className="btn btn-outline-danger ">Logout</button>
+          <button className="btn btn-outline-danger" onClick={handleLogOut}>
+            Logout
+          </button>
 
           {/* Delete Button */}
-          <button className="btn btn-outline-danger ">Delete Account</button>
+          <button className="btn btn-outline-danger" onClick={handleDelete}>Delete Account</button>
         </div>
       </div>
     </div>

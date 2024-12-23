@@ -3,7 +3,7 @@ import Main from "./Components/Main";
 import LoginForm from "./Components/LoginForm";
 import "bootstrap/dist/css/bootstrap.min.css";
 import InscriptionForm from "./Components/InscriptionForm";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "./Components/Profile";
 
 function App() {
@@ -40,31 +40,41 @@ function App() {
     }
   }
 
-
   // Cannot read properties of undefined (reading 'pathname')
   return (
     <Router>
       <Routes>
-        <Route 
-          path="/" 
+        <Route
+          path="/"
           element={
-            inscription ? <InscriptionForm SetInsc={setInscription} Users={users} /> 
-            : isLoggedIn ? <Main UserInofs={connectedUser} /> 
-            : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
-          } 
+            inscription ? (
+              <InscriptionForm SetInsc={setInscription} Users={users} />
+            ) : isLoggedIn ? (
+              <Main UserInofs={connectedUser} />
+            ) : (
+              <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
+            )
+          }
         />
-        <Route path="/Profile" element={<Profile UserInofs={connectedUser} setConnectedUser={setConnectedUser} />} />
+        <Route
+          path="/Profile"
+          element={
+            <Profile
+              UserInofs={connectedUser}
+              setConnectedUser={setConnectedUser}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
+        />
       </Routes>
     </Router>
   );
-
 }
 
 export default App;
 
-  // return (
-  //   inscription? <InscriptionForm SetInsc={setInscription} Users={users} />
-  //   : isLoggedIn? <Main UserInofs={connectedUser} /> 
-  //   : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
-  // )
-
+// return (
+//   inscription? <InscriptionForm SetInsc={setInscription} Users={users} />
+//   : isLoggedIn? <Main UserInofs={connectedUser} />
+//   : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
+// )
