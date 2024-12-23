@@ -1,0 +1,76 @@
+/* 
+body{
+  background-color:aliceblue;
+}
+
+.app {
+  font-family: sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", 
+  serif;
+  background-color: #f8f9fd;
+  }
+  form {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    padding: 30px;
+    width: 00px;
+    position: relative;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    bottom: 50px;
+    margin-top: 100px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  background: #01d28e;
+  border: 1px solid #01d28e;
+  color: #fff;
+  padding: 10px 20px;
+  }
+  input[type="submit"]:hover {
+  background: #6cf0c2;
+  }
+  .button-container {
+  display: flex;
+  justify-content: center;
+  }
+  .list-container {
+    display: flex;
+    }
+    .error {
+    color: red;
+    font-size: 15px;
+    }
+    .title {
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    }
+    input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+
+    height: 25px;
+    width: 250px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  
+    }
+      
+ */
+
+/* 
+ form input{
+  margin: 20px;
+ } */
