@@ -53,7 +53,7 @@ function App() {
             : <LoginForm onLogin={handleLogin} SetInsc={setInscription} />
           } 
         />
-        <Route path="/Profile" element={<Profile UserInofs={connectedUser}  />} />
+        <Route path="/Profile" element={<Profile UserInofs={connectedUser} setConnectedUser={setConnectedUser} />} />
       </Routes>
     </Router>
   );

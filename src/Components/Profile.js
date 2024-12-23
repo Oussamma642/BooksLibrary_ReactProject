@@ -1,10 +1,55 @@
 import { useState } from "react";
 
-export default function Profile({ UserInofs }) {
+export default function Profile({ UserInofs, setConnectedUser }) {
   const [fname, setFname] = useState(UserInofs.fname);
   const [lname, setLname] = useState(UserInofs.lname);
   const [email, setEmail] = useState(UserInofs.email);
   const [pswd, setPswd] = useState(UserInofs.pswd);
+
+  async function UpdateUser(userID) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/bookuser/${userID}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: email,
+            pswd: pswd,
+            fname: fname,
+            lname: lname,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update user");
+      }
+
+      const data = await response.json();
+
+      // Show success alert
+      alert("User updated successfully!");
+      console.log(data);
+    } catch (error) {
+      // Show error alert
+      alert("An error occurred while updating the user: " + error.message);
+      console.error("Error:", error);
+    }
+  }
+
+  function handleSaveChanges() {
+    setConnectedUser({
+      email: email,
+      pswd: pswd,
+      fname: fname,
+      lname: lname,
+    });
+
+    UpdateUser(UserInofs.id);
+  }
 
   return (
     <div className="container mx-auto mt-5 flex flex-col">
@@ -45,7 +90,7 @@ export default function Profile({ UserInofs }) {
               type="text"
               id="fname"
               name="fname"
-              onChange={(e)=>setFname(e.target.value)}
+              onChange={(e) => setFname(e.target.value)}
               className="w-full px-4 py-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
 
@@ -58,7 +103,7 @@ export default function Profile({ UserInofs }) {
               type="text"
               id="lname"
               name="lname"
-              onChange={(e)=>setLname(e.target.value)}
+              onChange={(e) => setLname(e.target.value)}
               className="w-full px-4 py-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
             <hr style={{ backgroundColor: "white", height: "2px" }} />
@@ -70,7 +115,7 @@ export default function Profile({ UserInofs }) {
               type="text"
               id="lname"
               name="lname"
-              onChange={(e)=>setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
 
@@ -83,7 +128,7 @@ export default function Profile({ UserInofs }) {
               type="text"
               id="pswd"
               name="pswd"
-              onChange={(e)=>setPswd(e.target.value)}
+              onChange={(e) => setPswd(e.target.value)}
               className="w-full px-4 py-2 text-gray-200 bg-gray-700 border rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
             />
           </div>
@@ -92,16 +137,22 @@ export default function Profile({ UserInofs }) {
         <hr style={{ backgroundColor: "white", height: "2px" }} />
 
         {/* Buttons */}
-        
-        {/* Save Button */}
+
         <div className="flex flex-col gap-4 mx-auto mb-10 w-1/2">
-          <button className="btn btn-outline-primary ">Save Changes</button>
+          {/* Save Button */}
+          <button
+            className="btn btn-outline-primary"
+            onClick={handleSaveChanges}
+          >
+            Save Changes
+          </button>
+
+          {/* Logout Button */}
           <button className="btn btn-outline-danger ">Logout</button>
-          <button className="btn btn-outline-danger ">Delete Account</button>  
+
+          {/* Delete Button */}
+          <button className="btn btn-outline-danger ">Delete Account</button>
         </div>
-      
-
-
       </div>
     </div>
   );
