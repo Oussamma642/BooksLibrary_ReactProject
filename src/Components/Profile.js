@@ -1,10 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile({ UserInofs, setConnectedUser }) {
   const [fname, setFname] = useState(UserInofs.fname);
   const [lname, setLname] = useState(UserInofs.lname);
   const [email, setEmail] = useState(UserInofs.email);
   const [pswd, setPswd] = useState(UserInofs.pswd);
+
+  const Navigate = useNavigate();
 
   async function UpdateUser(userID) {
     try {
@@ -30,9 +33,11 @@ export default function Profile({ UserInofs, setConnectedUser }) {
 
       const data = await response.json();
 
-      // Show success alert
       alert("User updated successfully!");
-      console.log(data);
+
+      Navigate('/');
+
+
     } catch (error) {
       // Show error alert
       alert("An error occurred while updating the user: " + error.message);
@@ -112,7 +117,7 @@ export default function Profile({ UserInofs, setConnectedUser }) {
             <input
               value={email}
               required
-              type="text"
+              type="email"
               id="lname"
               name="lname"
               onChange={(e) => setEmail(e.target.value)}
